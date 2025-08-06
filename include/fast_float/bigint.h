@@ -92,7 +92,7 @@ template <uint16_t size> struct stackvec {
   // add items to the vector, from a span, without bounds checking
   FASTFLOAT_CONSTEXPR20 void extend_unchecked(limb_span s) noexcept {
     limb *ptr = data + length;
-    std::copy_n(s.ptr, s.len(), ptr);
+    for (size_t i = 0; i < s.len(); i++) ptr[i] = s.ptr[i];
     set_len(len() + s.len());
   }
   // try to add items to the vector, returning if items were added
