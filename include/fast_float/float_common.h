@@ -207,6 +207,13 @@ template <typename T> struct enable_if<true, T> {
   using type = T;
 };
 
+template <bool C, typename T, typename U> struct conditional {
+  using type = T;
+};
+template <typename T, typename U> struct conditional<false, T, U> {
+  using type = U;
+};
+
 #if defined(__clang__) || defined(__GNUC__)
 template <typename T, typename U>
 static inline constexpr bool is_same_v = __is_same(T, U);
@@ -477,7 +484,7 @@ template <typename T, typename U = void> struct binary_format_lookup_tables;
 
 template <typename T> struct binary_format : binary_format_lookup_tables<T> {
   using equiv_uint =
-      typename std::conditional<sizeof(T) == 4, uint32_t, uint64_t>::type;
+      typename conditional<sizeof(T) == 4, uint32_t, uint64_t>::type;
 
   static inline constexpr int mantissa_explicit_bits();
   static inline constexpr int minimum_exponent();
