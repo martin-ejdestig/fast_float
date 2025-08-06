@@ -3,7 +3,9 @@
  */
 
 #include "fast_float/fast_float.h"
+#include <cmath>
 #include <iostream>
+#include <limits>
 #include <string>
 #include <vector>
 

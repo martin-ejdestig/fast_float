@@ -1,4 +1,5 @@
 #include "fast_float/fast_float.h"
+#include <cmath>
 #include <iostream>
 #include <string>
 #include <system_error>
