@@ -194,9 +194,14 @@ using parse_options = parse_options_t<char>;
   }
 
 #define FASTFLOAT_ENABLE_IF(...)                                               \
-  typename std::enable_if<(__VA_ARGS__), int>::type
+  typename enable_if<(__VA_ARGS__), int>::type
 
 namespace fast_float {
+
+template <bool, typename T = void> struct enable_if {};
+template <typename T> struct enable_if<true, T> {
+  using type = T;
+};
 
 fastfloat_really_inline constexpr bool cpp20_and_in_constexpr() {
 #if FASTFLOAT_HAS_IS_CONSTANT_EVALUATED
