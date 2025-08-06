@@ -291,9 +291,14 @@ template <typename T> static constexpr T min(const T &a, const T &b) {
   return a < b ? a : b;
 }
 
+static constexpr bool is_constant_evaluated() noexcept {
+  // GCC, Clang and MSVC all implement std::is_constant_evaluated() with __builtin_is_constant_evaluated().
+  return __builtin_is_constant_evaluated();
+}
+
 fastfloat_really_inline constexpr bool cpp20_and_in_constexpr() {
 #if FASTFLOAT_HAS_IS_CONSTANT_EVALUATED
-  return std::is_constant_evaluated();
+  return is_constant_evaluated();
 #else
   return false;
 #endif
