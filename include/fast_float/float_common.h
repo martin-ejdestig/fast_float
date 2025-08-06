@@ -203,6 +203,10 @@ template <typename T> struct enable_if<true, T> {
   using type = T;
 };
 
+template <typename T> static constexpr T min(const T &a, const T &b) {
+  return a < b ? a : b;
+}
+
 fastfloat_really_inline constexpr bool cpp20_and_in_constexpr() {
 #if FASTFLOAT_HAS_IS_CONSTANT_EVALUATED
   return std::is_constant_evaluated();
