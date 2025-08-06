@@ -323,7 +323,7 @@ template <typename T, typename UC, typename>
 FASTFLOAT_CONSTEXPR20 from_chars_result_t<UC>
 from_chars(UC const *first, UC const *last, T &value, int base) noexcept {
 
-  static_assert(std::is_integral<T>::value, "only integer types are supported");
+  static_assert(numeric_limits<T>::is_integer, "only integer types are supported");
   static_assert(is_supported_char_type<UC>(),
                 "only char, wchar_t, char16_t and char32_t are supported");
 
@@ -337,7 +337,7 @@ FASTFLOAT_CONSTEXPR20 from_chars_result_t<UC>
 from_chars_int_advanced(UC const *first, UC const *last, T &value,
                         parse_options_t<UC> options) noexcept {
 
-  static_assert(std::is_integral<T>::value, "only integer types are supported");
+  static_assert(numeric_limits<T>::is_integer, "only integer types are supported");
   static_assert(is_supported_char_type<UC>(),
                 "only char, wchar_t, char16_t and char32_t are supported");
 

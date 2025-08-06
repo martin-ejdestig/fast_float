@@ -221,38 +221,47 @@ template <typename T> static inline constexpr bool is_same_v<T, T> = true;
 // them unconditionally.
 template <typename T> struct numeric_limits {};
 template <> struct numeric_limits<int8_t> {
+  static constexpr bool is_integer = true;
   static constexpr bool is_signed = true;
   static constexpr int8_t max() noexcept { return INT8_MAX; }
 };
 template <> struct numeric_limits<uint8_t> {
+  static constexpr bool is_integer = true;
   static constexpr bool is_signed = false;
   static constexpr uint8_t max() noexcept { return UINT8_MAX; }
 };
 template <> struct numeric_limits<int16_t> {
+  static constexpr bool is_integer = true;
   static constexpr bool is_signed = true;
   static constexpr int16_t max() noexcept { return INT16_MAX; }
 };
 template <> struct numeric_limits<uint16_t> {
+  static constexpr bool is_integer = true;
   static constexpr bool is_signed = false;
   static constexpr uint16_t max() noexcept { return UINT16_MAX; }
 };
 template <> struct numeric_limits<int32_t> {
+  static constexpr bool is_integer = true;
   static constexpr bool is_signed = true;
   static constexpr int32_t max() noexcept { return INT32_MAX; }
 };
 template <> struct numeric_limits<uint32_t> {
+  static constexpr bool is_integer = true;
   static constexpr bool is_signed = false;
   static constexpr uint32_t max() noexcept { return UINT32_MAX; }
 };
 template <> struct numeric_limits<int64_t> {
+  static constexpr bool is_integer = true;
   static constexpr bool is_signed = true;
   static constexpr int64_t max() noexcept { return INT64_MAX; }
 };
 template <> struct numeric_limits<uint64_t> {
+  static constexpr bool is_integer = true;
   static constexpr bool is_signed = false;
   static constexpr uint64_t max() noexcept { return UINT64_MAX; }
 };
 template <> struct numeric_limits<float> {
+  static constexpr bool is_integer = false;
   static constexpr bool is_signed = true;
   static constexpr float min() noexcept { return FLT_MIN; }
   static constexpr float max() noexcept { return FLT_MAX; }
@@ -260,6 +269,7 @@ template <> struct numeric_limits<float> {
   static constexpr float quiet_NaN() noexcept { return __builtin_nanf(""); }
 };
 template <> struct numeric_limits<double> {
+  static constexpr bool is_integer = false;
   static constexpr bool is_signed = true;
   static constexpr double min() noexcept { return DBL_MIN; }
   static constexpr double max() noexcept { return DBL_MAX; }
