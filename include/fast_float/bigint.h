@@ -113,7 +113,7 @@ template <uint16_t size> struct stackvec {
       size_t count = new_len - len();
       limb *first = data + len();
       limb *last = first + count;
-      ::std::fill(first, last, value);
+      while (first != last) *first++ = value;
       set_len(new_len);
     } else {
       set_len(new_len);
@@ -532,7 +532,7 @@ struct bigint : pow5_tables<> {
       // fill in empty limbs
       limb *first = vec.data;
       limb *last = first + n;
-      ::std::fill(first, last, 0);
+      while (first != last) *first++ = 0;
       vec.set_len(n + vec.len());
       return true;
     } else {
