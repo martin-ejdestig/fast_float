@@ -24,7 +24,7 @@ from_chars_result_t<UC>
                                        T &value, chars_format fmt) noexcept {
   from_chars_result_t<UC> answer{};
   answer.ptr = first;
-  answer.ec = std::errc(); // be optimistic
+  answer.ec = errc(); // be optimistic
   // assume first < last, so dereference without checks;
   bool const minusSign = (*first == UC('-'));
   // C++17 20.19.3.(7.1) explicitly forbids '+' sign here
@@ -65,7 +65,7 @@ from_chars_result_t<UC>
       return answer;
     }
   }
-  answer.ec = std::errc::invalid_argument;
+  answer.ec = errc::invalid_argument;
   return answer;
 }
 
@@ -203,7 +203,7 @@ from_chars_advanced(parsed_number_string_t<UC> &pns, T &value) noexcept {
 
   from_chars_result_t<UC> answer;
 
-  answer.ec = std::errc(); // be optimistic
+  answer.ec = errc(); // be optimistic
   answer.ptr = pns.lastmatch;
   // The implementation of the Clinger's fast path is convoluted because
   // we want round-to-nearest in all cases, irrespective of the rounding mode
@@ -275,7 +275,7 @@ from_chars_advanced(parsed_number_string_t<UC> &pns, T &value) noexcept {
   // Test for over/underflow.
   if ((pns.mantissa != 0 && am.mantissa == 0 && am.power2 == 0) ||
       am.power2 == binary_format<T>::infinite_power()) {
-    answer.ec = std::errc::result_out_of_range;
+    answer.ec = errc::result_out_of_range;
   }
   return answer;
 }
@@ -299,7 +299,7 @@ from_chars_float_advanced(UC const *first, UC const *last, T &value,
     }
   }
   if (first == last) {
-    answer.ec = std::errc::invalid_argument;
+    answer.ec = errc::invalid_argument;
     answer.ptr = first;
     return answer;
   }
@@ -307,7 +307,7 @@ from_chars_float_advanced(UC const *first, UC const *last, T &value,
       parse_number_string<UC>(first, last, options);
   if (!pns.valid) {
     if (uint64_t(fmt & chars_format::no_infnan)) {
-      answer.ec = std::errc::invalid_argument;
+      answer.ec = errc::invalid_argument;
       answer.ptr = first;
       return answer;
     } else {
@@ -351,7 +351,7 @@ from_chars_int_advanced(UC const *first, UC const *last, T &value,
     }
   }
   if (first == last || base < 2 || base > 36) {
-    answer.ec = std::errc::invalid_argument;
+    answer.ec = errc::invalid_argument;
     answer.ptr = first;
     return answer;
   }

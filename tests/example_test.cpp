@@ -10,7 +10,7 @@ bool many() {
   double result;
   auto answer =
       fast_float::from_chars(input.data(), input.data() + input.size(), result);
-  if (answer.ec != std::errc()) {
+  if (answer.ec != fast_float::errc()) {
     return false;
   }
   if (result != 234532.3426362) {
@@ -21,7 +21,7 @@ bool many() {
   }
   answer = fast_float::from_chars(answer.ptr + 1, input.data() + input.size(),
                                   result);
-  if (answer.ec != std::errc()) {
+  if (answer.ec != fast_float::errc()) {
     return false;
   }
   if (result != 7869234.9823) {
@@ -32,7 +32,7 @@ bool many() {
   }
   answer = fast_float::from_chars(answer.ptr + 1, input.data() + input.size(),
                                   result);
-  if (answer.ec != std::errc()) {
+  if (answer.ec != fast_float::errc()) {
     return false;
   }
   if (result != 324562.645) {
@@ -49,7 +49,7 @@ void many_loop() {
 
   while (pointer < end_pointer) {
     auto answer = fast_float::from_chars(pointer, end_pointer, result);
-    if (answer.ec != std::errc()) {
+    if (answer.ec != fast_float::errc()) {
       std::cerr << "error while parsing" << std::endl;
       break;
     }
@@ -67,7 +67,7 @@ consteval double parse(std::string_view input) {
   double result;
   auto answer =
       fast_float::from_chars(input.data(), input.data() + input.size(), result);
-  if (answer.ec != std::errc()) {
+  if (answer.ec != fast_float::errc()) {
     return -1.0;
   }
   return result;
@@ -82,7 +82,7 @@ bool small() {
   double result = -1;
   std::string str = "3e-1000";
   auto r = fast_float::from_chars(str.data(), str.data() + str.size(), result);
-  if (r.ec != std::errc::result_out_of_range) {
+  if (r.ec != fast_float::errc::result_out_of_range) {
     return false;
   }
   if (r.ptr != str.data() + 7) {
@@ -99,7 +99,7 @@ bool large() {
   double result = -1;
   std::string str = "3e1000";
   auto r = fast_float::from_chars(str.data(), str.data() + str.size(), result);
-  if (r.ec != std::errc::result_out_of_range) {
+  if (r.ec != fast_float::errc::result_out_of_range) {
     return false;
   }
   if (r.ptr != str.data() + 6) {
@@ -117,7 +117,7 @@ int main() {
   double result;
   auto answer =
       fast_float::from_chars(input.data(), input.data() + input.size(), result);
-  if ((answer.ec != std::errc()) || ((result != 3.1416))) {
+  if ((answer.ec != fast_float::errc()) || ((result != 3.1416))) {
     std::cerr << "parsing failure\n";
     return EXIT_FAILURE;
   }

@@ -13,7 +13,7 @@ int main_readme() {
       fast_float::chars_format::allow_leading_plus}; // should be ignored
   auto answer = fast_float::from_chars_advanced(
       input.data(), input.data() + input.size(), result, options);
-  if (answer.ec == std::errc()) {
+  if (answer.ec == fast_float::errc()) {
     std::cerr << "should have failed\n";
     return EXIT_FAILURE;
   }
@@ -28,7 +28,7 @@ int main_readme2() {
       fast_float::chars_format::allow_leading_plus}; // should be ignored
   auto answer = fast_float::from_chars_advanced(
       input.data(), input.data() + input.size(), result, options);
-  if (answer.ec == std::errc()) {
+  if (answer.ec == fast_float::errc()) {
     std::cerr << "should have failed\n";
     return EXIT_FAILURE;
   }
@@ -44,7 +44,7 @@ int main_readme3() {
       fast_float::chars_format::allow_leading_plus}; // should be ignored
   auto answer = fast_float::from_chars_advanced(
       input.data(), input.data() + input.size(), result, options);
-  if (answer.ec != std::errc() || (!std::isinf(result))) {
+  if (answer.ec != fast_float::errc() || (!std::isinf(result))) {
     std::cerr << "should have parsed infinity\n";
     return EXIT_FAILURE;
   }
@@ -99,7 +99,7 @@ int main() {
     auto answer =
         fast_float::from_chars(s.data(), s.data() + s.size(), result,
                                fast_float::chars_format::json_or_infnan);
-    if (answer.ec != std::errc()) {
+    if (answer.ec != fast_float::errc()) {
       std::cerr << "json fmt rejected valid json " << s << std::endl;
       return EXIT_FAILURE;
     }
@@ -121,7 +121,7 @@ int main() {
     double result;
     auto answer = fast_float::from_chars(s.data(), s.data() + s.size(), result,
                                          fast_float::chars_format::json);
-    if (answer.ec == std::errc()) {
+    if (answer.ec == fast_float::errc()) {
       std::cerr << "json fmt accepted invalid json " << s << std::endl;
       return EXIT_FAILURE;
     }

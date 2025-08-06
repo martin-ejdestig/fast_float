@@ -164,7 +164,7 @@ TEST_CASE("parse_zero") {
 
   fesetround(FE_UPWARD);
   auto r1 = fast_float::from_chars(zero, zero + 1, f);
-  CHECK(r1.ec == std::errc());
+  CHECK(r1.ec == fast_float::errc());
   std::cout << "FE_UPWARD parsed zero as " << iHexAndDec(f) << std::endl;
   CHECK(f == 0);
   ::memcpy(&float64_parsed, &f, sizeof(f));
@@ -173,7 +173,7 @@ TEST_CASE("parse_zero") {
 
   fesetround(FE_TOWARDZERO);
   auto r2 = fast_float::from_chars(zero, zero + 1, f);
-  CHECK(r2.ec == std::errc());
+  CHECK(r2.ec == fast_float::errc());
   std::cout << "FE_TOWARDZERO parsed zero as " << iHexAndDec(f) << std::endl;
   CHECK(f == 0);
   ::memcpy(&float64_parsed, &f, sizeof(f));
@@ -182,7 +182,7 @@ TEST_CASE("parse_zero") {
 
   fesetround(FE_DOWNWARD);
   auto r3 = fast_float::from_chars(zero, zero + 1, f);
-  CHECK(r3.ec == std::errc());
+  CHECK(r3.ec == fast_float::errc());
   std::cout << "FE_DOWNWARD parsed zero as " << iHexAndDec(f) << std::endl;
   CHECK(f == 0);
   ::memcpy(&float64_parsed, &f, sizeof(f));
@@ -191,7 +191,7 @@ TEST_CASE("parse_zero") {
 
   fesetround(FE_TONEAREST);
   auto r4 = fast_float::from_chars(zero, zero + 1, f);
-  CHECK(r4.ec == std::errc());
+  CHECK(r4.ec == fast_float::errc());
   std::cout << "FE_TONEAREST parsed zero as " << iHexAndDec(f) << std::endl;
   CHECK(f == 0);
   ::memcpy(&float64_parsed, &f, sizeof(f));
@@ -211,7 +211,7 @@ TEST_CASE("parse_negative_zero") {
 
   fesetround(FE_UPWARD);
   auto r1 = fast_float::from_chars(negative_zero, negative_zero + 2, f);
-  CHECK(r1.ec == std::errc());
+  CHECK(r1.ec == fast_float::errc());
   std::cout << "FE_UPWARD parsed negative zero as " << iHexAndDec(f)
             << std::endl;
   CHECK(f == 0);
@@ -221,7 +221,7 @@ TEST_CASE("parse_negative_zero") {
 
   fesetround(FE_TOWARDZERO);
   auto r2 = fast_float::from_chars(negative_zero, negative_zero + 2, f);
-  CHECK(r2.ec == std::errc());
+  CHECK(r2.ec == fast_float::errc());
   std::cout << "FE_TOWARDZERO parsed negative zero as " << iHexAndDec(f)
             << std::endl;
   CHECK(f == 0);
@@ -231,7 +231,7 @@ TEST_CASE("parse_negative_zero") {
 
   fesetround(FE_DOWNWARD);
   auto r3 = fast_float::from_chars(negative_zero, negative_zero + 2, f);
-  CHECK(r3.ec == std::errc());
+  CHECK(r3.ec == fast_float::errc());
   std::cout << "FE_DOWNWARD parsed negative zero as " << iHexAndDec(f)
             << std::endl;
   CHECK(f == 0);
@@ -241,7 +241,7 @@ TEST_CASE("parse_negative_zero") {
 
   fesetround(FE_TONEAREST);
   auto r4 = fast_float::from_chars(negative_zero, negative_zero + 2, f);
-  CHECK(r4.ec == std::errc());
+  CHECK(r4.ec == fast_float::errc());
   std::cout << "FE_TONEAREST parsed negative zero as " << iHexAndDec(f)
             << std::endl;
   CHECK(f == 0);
@@ -298,8 +298,8 @@ bool check_file(std::string file_name) {
           float parsed_32;
           auto fast_float_r32 =
               fast_float::from_chars(number_string, end_of_string, parsed_32);
-          if (fast_float_r32.ec != std::errc() &&
-              fast_float_r32.ec != std::errc::result_out_of_range) {
+          if (fast_float_r32.ec != fast_float::errc() &&
+              fast_float_r32.ec != fast_float::errc::result_out_of_range) {
             std::cerr << "32-bit fast_float parsing failure for: " + str + "\n";
             return false;
           }
@@ -307,8 +307,8 @@ bool check_file(std::string file_name) {
           double parsed_64;
           auto fast_float_r64 =
               fast_float::from_chars(number_string, end_of_string, parsed_64);
-          if (fast_float_r64.ec != std::errc() &&
-              fast_float_r32.ec != std::errc::result_out_of_range) {
+          if (fast_float_r64.ec != fast_float::errc() &&
+              fast_float_r32.ec != fast_float::errc::result_out_of_range) {
             std::cerr << "64-bit fast_float parsing failure: " + str + "\n";
             return false;
           }
@@ -418,7 +418,7 @@ TEST_CASE("issue8") {
     // Parse all but the last i chars. We should still get 3.141ish.
     double d = 0.0;
     auto answer = fast_float::from_chars(s, s + strlen(s) - i, d);
-    CHECK_MESSAGE(answer.ec == std::errc(), "i=" << i);
+    CHECK_MESSAGE(answer.ec == fast_float::errc(), "i=" << i);
     CHECK_MESSAGE(d == 0x1.921fb54442d18p+1,
                   "i=" << i << "\n"
                        << std::string(s, strlen(s) - size_t(i)) << "\n"
@@ -432,7 +432,7 @@ TEST_CASE("check_behavior") {
   double result;
   auto answer =
       fast_float::from_chars(input.data(), input.data() + input.size(), result);
-  CHECK_MESSAGE(answer.ec != std::errc(), "expected parse failure");
+  CHECK_MESSAGE(answer.ec != fast_float::errc(), "expected parse failure");
   CHECK_MESSAGE(
       answer.ptr == input.data(),
       "If there is no pattern match, we should have ptr equals first");
@@ -445,7 +445,7 @@ TEST_CASE("decimal_point_parsing") {
     const std::string input = "1,25";
     auto answer = fast_float::from_chars_advanced(
         input.data(), input.data() + input.size(), result, options);
-    CHECK_MESSAGE(answer.ec == std::errc(), "expected parse success");
+    CHECK_MESSAGE(answer.ec == fast_float::errc(), "expected parse success");
     CHECK_MESSAGE(answer.ptr == input.data() + 1,
                   "Parsing should have stopped at comma");
     CHECK_EQ(result, 1.0);
@@ -453,7 +453,7 @@ TEST_CASE("decimal_point_parsing") {
     options.decimal_point = ',';
     answer = fast_float::from_chars_advanced(
         input.data(), input.data() + input.size(), result, options);
-    CHECK_MESSAGE(answer.ec == std::errc(), "expected parse success");
+    CHECK_MESSAGE(answer.ec == fast_float::errc(), "expected parse success");
     CHECK_MESSAGE(answer.ptr == input.data() + input.size(),
                   "Parsing should have stopped at end");
     CHECK_EQ(result, 1.25);
@@ -462,7 +462,7 @@ TEST_CASE("decimal_point_parsing") {
     const std::string input = "1.25";
     auto answer = fast_float::from_chars_advanced(
         input.data(), input.data() + input.size(), result, options);
-    CHECK_MESSAGE(answer.ec == std::errc(), "expected parse success");
+    CHECK_MESSAGE(answer.ec == fast_float::errc(), "expected parse success");
     CHECK_MESSAGE(answer.ptr == input.data() + 1,
                   "Parsing should have stopped at dot");
     CHECK_EQ(result, 1.0);
@@ -470,7 +470,7 @@ TEST_CASE("decimal_point_parsing") {
     options.decimal_point = '.';
     answer = fast_float::from_chars_advanced(
         input.data(), input.data() + input.size(), result, options);
-    CHECK_MESSAGE(answer.ec == std::errc(), "expected parse success");
+    CHECK_MESSAGE(answer.ec == fast_float::errc(), "expected parse success");
     CHECK_MESSAGE(answer.ptr == input.data() + input.size(),
                   "Parsing should have stopped at end");
     CHECK_EQ(result, 1.25);
@@ -482,7 +482,7 @@ TEST_CASE("issue19") {
   double result;
   auto answer =
       fast_float::from_chars(input.data(), input.data() + input.size(), result);
-  CHECK_MESSAGE(answer.ec == std::errc(),
+  CHECK_MESSAGE(answer.ec == fast_float::errc(),
                 "We want to parse up to 234532.3426362\n");
   CHECK_MESSAGE(answer.ptr == input.data() + 14,
                 "Parsed the number "
@@ -493,7 +493,7 @@ TEST_CASE("issue19") {
 
   answer = fast_float::from_chars(answer.ptr + 1, input.data() + input.size(),
                                   result);
-  CHECK_MESSAGE(answer.ec == std::errc(), "We want to parse 7869234.9823\n");
+  CHECK_MESSAGE(answer.ec == fast_float::errc(), "We want to parse 7869234.9823\n");
   CHECK_MESSAGE(answer.ptr == input.data() + 27,
                 "Parsed the number " << result
                                      << " and stopped at the wrong character "
@@ -503,7 +503,7 @@ TEST_CASE("issue19") {
 
   answer = fast_float::from_chars(answer.ptr + 1, input.data() + input.size(),
                                   result);
-  CHECK_MESSAGE(answer.ec == std::errc(), "We want to parse 324562.645\n");
+  CHECK_MESSAGE(answer.ec == fast_float::errc(), "We want to parse 324562.645\n");
   CHECK_MESSAGE(answer.ptr == input.data() + 38,
                 "Parsed the number " << result
                                      << " and stopped at the wrong character "
@@ -516,7 +516,7 @@ TEST_CASE("issue19") {
   double result;
   auto answer =
       fast_float::from_chars(input.data(), input.data() + input.size(), result);
-  CHECK_MESSAGE(answer.ec == std::errc(), "We want to parse up to 3.14\n");
+  CHECK_MESSAGE(answer.ec == fast_float::errc(), "We want to parse up to 3.14\n");
   CHECK_MESSAGE(answer.ptr == input.data() + 4,
                 "Parsed the number "
                     << result << " and stopped at the wrong character: after "
@@ -530,13 +530,13 @@ TEST_CASE("scientific_only") {
   auto answer =
       fast_float::from_chars(input.data(), input.data() + input.size(), result,
                              fast_float::chars_format::scientific);
-  CHECK_MESSAGE(answer.ec != std::errc(),
+  CHECK_MESSAGE(answer.ec != fast_float::errc(),
                 "It is not scientific! Parsed: " << result);
 
   input = "3.14e10";
   answer = fast_float::from_chars(input.data(), input.data() + input.size(),
                                   result, fast_float::chars_format::scientific);
-  CHECK_MESSAGE(answer.ec == std::errc(),
+  CHECK_MESSAGE(answer.ec == fast_float::errc(),
                 "It is scientific! Parsed: " << result);
   CHECK_MESSAGE(answer.ptr == input.data() + input.size(),
                 "Parsed the number "
@@ -550,7 +550,7 @@ TEST_CASE("test_fixed_only") {
   auto answer =
       fast_float::from_chars(input.data(), input.data() + input.size(), result,
                              fast_float::chars_format::fixed);
-  CHECK_MESSAGE(answer.ec == std::errc(),
+  CHECK_MESSAGE(answer.ec == fast_float::errc(),
                 "We want to parse up to 3.14; parsed: " << result);
   CHECK_MESSAGE(answer.ptr == input.data() + 4,
                 "Parsed the number "
@@ -648,7 +648,7 @@ TEST_CASE("powers_of_ten") {
     double expected =
         ((i >= -323) ? testing_power_of_ten[i + 323] : std::pow(10, i));
     auto expected_ec =
-        (i < -323 || i > 308) ? std::errc::result_out_of_range : std::errc();
+        (i < -323 || i > 308) ? fast_float::errc::result_out_of_range : fast_float::errc();
     CHECK_MESSAGE(result.ec == expected_ec, " I could not parse " << buf);
     CHECK_MESSAGE(actual == expected,
                   "String '" << buf << "'parsed to " << actual);
@@ -700,7 +700,7 @@ enum class Diag { runtime, comptime };
 template <Diag diag, class T, typename result_type, typename stringtype>
 constexpr void check_basic_test_result(stringtype str, result_type result,
                                        T actual, T expected,
-                                       std::errc expected_ec) {
+                                       fast_float::errc expected_ec) {
   if constexpr (diag == Diag::runtime) {
     INFO("str=" << str << "\n"
                 << "  expected=" << fHexAndDec(expected) << "\n"
@@ -754,7 +754,7 @@ constexpr void check_basic_test_result(stringtype str, result_type result,
 
 template <Diag diag, class T>
 constexpr void basic_test(std::string_view str, T expected,
-                          std::errc expected_ec = std::errc()) {
+                          fast_float::errc expected_ec = fast_float::errc()) {
   T actual;
   auto result =
       fast_float::from_chars(str.data(), str.data() + str.size(), actual);
@@ -790,12 +790,12 @@ constexpr void basic_test(std::string_view str, T expected,
   T actual;
   auto result = fast_float::from_chars_advanced(
       str.data(), str.data() + str.size(), actual, options);
-  check_basic_test_result<diag>(str, result, actual, expected, std::errc());
+  check_basic_test_result<diag>(str, result, actual, expected, fast_float::errc());
 }
 
 template <Diag diag, class T>
 constexpr void basic_test(std::string_view str, T expected,
-                          std::errc expected_ec,
+                          fast_float::errc expected_ec,
                           fast_float::parse_options options) {
   T actual;
   auto result = fast_float::from_chars_advanced(
@@ -879,21 +879,21 @@ TEST_CASE("64bit.inf") {
   verify("-inf", -std::numeric_limits<double>::infinity());
   verify("1234456789012345678901234567890e9999999999999999999999999999",
          std::numeric_limits<double>::infinity(),
-         std::errc::result_out_of_range);
+         fast_float::errc::result_out_of_range);
   verify("-2139879401095466344511101915470454744.9813888656856943E+272",
          -std::numeric_limits<double>::infinity(),
-         std::errc::result_out_of_range);
+         fast_float::errc::result_out_of_range);
   verify("1.8e308", std::numeric_limits<double>::infinity(),
-         std::errc::result_out_of_range);
+         fast_float::errc::result_out_of_range);
   verify("1.832312213213213232132132143451234453123412321321312e308",
          std::numeric_limits<double>::infinity(),
-         std::errc::result_out_of_range);
+         fast_float::errc::result_out_of_range);
   verify("2e30000000000000000", std::numeric_limits<double>::infinity(),
-         std::errc::result_out_of_range);
+         fast_float::errc::result_out_of_range);
   verify("2e3000", std::numeric_limits<double>::infinity(),
-         std::errc::result_out_of_range);
+         fast_float::errc::result_out_of_range);
   verify("1.9e308", std::numeric_limits<double>::infinity(),
-         std::errc::result_out_of_range);
+         fast_float::errc::result_out_of_range);
 }
 
 TEST_CASE("64bit.general") {
@@ -902,7 +902,7 @@ TEST_CASE("64bit.general") {
          0x1p-1022); /* limit between normal and subnormal*/
   verify("-22250738585072012e-324",
          -0x1p-1022); /* limit between normal and subnormal*/
-  verify("-1e-999", -0.0, std::errc::result_out_of_range);
+  verify("-1e-999", -0.0, fast_float::errc::result_out_of_range);
   verify("-2.2222222222223e-322", -0x1.68p-1069);
   verify("9007199254740993.0", 0x1p+53);
   verify("860228122.6654514319E+90", 0x1.92bb20990715fp+328);
@@ -1075,7 +1075,7 @@ TEST_CASE("64bit.general") {
       "129780449323363759027012972466987370921816813162658754726545121090545507"
       "240267000456594786540949605260722461937870630634874991729398208026467698"
       "131898691830012167897399682179601734569071423681e-733",
-      std::numeric_limits<double>::infinity(), std::errc::result_out_of_range);
+      std::numeric_limits<double>::infinity(), fast_float::errc::result_out_of_range);
   verify("-2240084132271013504.131248280843119943687942846658579428",
          -0x1.f1660a65b00bfp+60);
 }
@@ -1089,16 +1089,16 @@ TEST_CASE("64bit.decimal_point") {
 
   // infinities
   verify_options("1,8e308", std::numeric_limits<double>::infinity(),
-                 std::errc::result_out_of_range);
+                 fast_float::errc::result_out_of_range);
   verify_options("1,832312213213213232132132143451234453123412321321312e308",
                  std::numeric_limits<double>::infinity(),
-                 std::errc::result_out_of_range);
+                 fast_float::errc::result_out_of_range);
   verify_options("2e30000000000000000", std::numeric_limits<double>::infinity(),
-                 std::errc::result_out_of_range);
+                 fast_float::errc::result_out_of_range);
   verify_options("2e3000", std::numeric_limits<double>::infinity(),
-                 std::errc::result_out_of_range);
+                 fast_float::errc::result_out_of_range);
   verify_options("1,9e308", std::numeric_limits<double>::infinity(),
-                 std::errc::result_out_of_range);
+                 fast_float::errc::result_out_of_range);
 
   // finites
   verify_options("-2,2222222222223e-322", -0x1.68p-1069);
@@ -1247,15 +1247,15 @@ TEST_CASE("32bit.inf") {
   verify("-inf", -std::numeric_limits<float>::infinity());
   verify("1234456789012345678901234567890e9999999999999999999999999999",
          std::numeric_limits<float>::infinity(),
-         std::errc::result_out_of_range);
+         fast_float::errc::result_out_of_range);
   verify("2e3000", std::numeric_limits<float>::infinity(),
-         std::errc::result_out_of_range);
+         fast_float::errc::result_out_of_range);
   verify("3.5028234666e38", std::numeric_limits<float>::infinity(),
-         std::errc::result_out_of_range);
+         fast_float::errc::result_out_of_range);
 }
 
 TEST_CASE("32bit.general") {
-  verify("-1e-999", -0.0f, std::errc::result_out_of_range);
+  verify("-1e-999", -0.0f, fast_float::errc::result_out_of_range);
   verify("1."
          "175494140627517859246175898662808184331245864732796240031385942718174"
          "6759860647699724722770042717456817626953125",
@@ -1365,7 +1365,7 @@ TEST_CASE("32bit.general") {
       "2.3509887016445750159374730744444913556373311135441750430175034126e-38",
       2.3509887016445750159374730744444913556373311135441750430175034126e-38f);
   verify("1", 1.f);
-  verify("7.0060e-46", 0.f, std::errc::result_out_of_range);
+  verify("7.0060e-46", 0.f, fast_float::errc::result_out_of_range);
   verify("3.4028234664e38", 0x1.fffffep+127f);
   verify("3.4028234665e38", 0x1.fffffep+127f);
   verify("3.4028234666e38", 0x1.fffffep+127f);
@@ -1403,7 +1403,7 @@ TEST_CASE("32bit.decimal_point") {
 
   // infinity
   verify_options("3,5028234666e38", std::numeric_limits<float>::infinity(),
-                 std::errc::result_out_of_range);
+                 fast_float::errc::result_out_of_range);
 
   // finites
   verify_options("1,"
@@ -1472,7 +1472,7 @@ TEST_CASE("32bit.decimal_point") {
       "2,3509887016445750159374730744444913556373311135441750430175034126e-38",
       2.3509887016445750159374730744444913556373311135441750430175034126e-38f);
   verify_options("1", 1.f);
-  verify_options("7,0060e-46", 0.f, std::errc::result_out_of_range);
+  verify_options("7,0060e-46", 0.f, fast_float::errc::result_out_of_range);
   verify_options("3,4028234664e38", 0x1.fffffep+127f);
   verify_options("3,4028234665e38", 0x1.fffffep+127f);
   verify_options("3,4028234666e38", 0x1.fffffep+127f);

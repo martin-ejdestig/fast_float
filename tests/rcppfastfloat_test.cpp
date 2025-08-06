@@ -65,7 +65,7 @@ bool eddelbuettel() {
         fast_float::chars_format::general |
             fast_float::chars_format::allow_leading_plus |
             fast_float::chars_format::skip_white_space);
-    if (answer.ec != std::errc()) {
+    if (answer.ec != fast_float::errc()) {
       std::cout << "could not parse" << std::endl;
       if (expected_success) {
         return false;

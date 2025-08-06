@@ -84,15 +84,15 @@ template <typename T> bool test() {
                             10,
                             10,
                             -std::numeric_limits<T>::infinity()};
-  std::vector<std::errc> expected_ec = {std::errc(),
-                                        std::errc::result_out_of_range,
-                                        std::errc(),
-                                        std::errc(),
-                                        std::errc::result_out_of_range,
-                                        std::errc(),
-                                        std::errc(),
-                                        std::errc(),
-                                        std::errc()};
+  std::vector<fast_float::errc> expected_ec = {fast_float::errc(),
+                                               fast_float::errc::result_out_of_range,
+                                               fast_float::errc(),
+                                               fast_float::errc(),
+                                               fast_float::errc::result_out_of_range,
+                                               fast_float::errc(),
+                                               fast_float::errc(),
+                                               fast_float::errc(),
+                                               fast_float::errc()};
   const char *begin = input.data();
   const char *end = input.data() + input.size();
   for (size_t i = 0; i < answers.size(); i++) {
@@ -1091,8 +1091,8 @@ template <typename T> bool partow_test() {
     T result_value;
     auto result =
         fast_float::from_chars(st.data(), st.data() + st.size(), result_value);
-    if (result.ec != std::errc() &&
-        result.ec != std::errc::result_out_of_range) {
+    if (result.ec != fast_float::errc() &&
+        result.ec != fast_float::errc::result_out_of_range) {
       printf("parsing %.*s\n", int(st.size()), st.data());
       std::cerr << " I could not parse " << std::endl;
       return false;

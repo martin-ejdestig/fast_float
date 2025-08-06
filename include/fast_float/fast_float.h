@@ -17,7 +17,7 @@ namespace fast_float {
  * Given a successful parse, the pointer (`ptr`) in the returned value is set to
  * point right after the parsed number, and the `value` referenced is set to the
  * parsed value. In case of error, the returned `ec` contains a representative
- * error, otherwise the default (`std::errc()`) value is stored.
+ * error, otherwise the default (`fast_float::errc()`) value is stored.
  *
  * The implementation does not throw and does not allocate memory (e.g., with
  * `new` or `malloc`).

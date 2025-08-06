@@ -10,7 +10,7 @@ bool tester(std::string s, double expected,
   double result;
   auto answer = fast_float::from_chars(
       input.data(), input.data() + input.size(), result, fmt);
-  if (answer.ec != std::errc()) {
+  if (answer.ec != fast_float::errc()) {
     std::cerr << "parsing of \"" << s << "\" should succeed\n";
     return false;
   }
@@ -22,7 +22,7 @@ bool tester(std::string s, double expected,
   input[0] += 256;
   answer = fast_float::from_chars(input.data(), input.data() + input.size(),
                                   result, fmt);
-  if (answer.ec == std::errc()) {
+  if (answer.ec == fast_float::errc()) {
     std::cerr << "parsing of altered \"" << s << "\" should fail\n";
     return false;
   }

@@ -27,8 +27,8 @@ template <typename T> bool test() {
       begin++;
     }
     auto result = fast_float::from_chars(begin, end, result_value);
-    if (result.ec != std::errc() &&
-        result.ec != std::errc::result_out_of_range) {
+    if (result.ec != fast_float::errc() &&
+        result.ec != fast_float::errc::result_out_of_range) {
       printf("parsing %.*s\n", int(end - begin), begin);
       std::cerr << " I could not parse " << std::endl;
       return false;

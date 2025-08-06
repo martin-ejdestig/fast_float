@@ -20,7 +20,7 @@ bool basic_test_64bit(std::string vals, double val) {
   double result_value;
   auto result = fast_float::from_chars(vals.data(), vals.data() + vals.size(),
                                        result_value);
-  if (result.ec != std::errc() && result.ec != std::errc::result_out_of_range) {
+  if (result.ec != fast_float::errc() && result.ec != fast_float::errc::result_out_of_range) {
     std::cerr << " I could not parse " << vals << std::endl;
     return false;
   }

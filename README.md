@@ -32,7 +32,7 @@ The return type (`from_chars_result`) is defined as the struct:
 ```C++
 struct from_chars_result {
   const char* ptr;
-  std::errc ec;
+  fast_float::errc ec;
 };
 ```
 
@@ -46,7 +46,7 @@ values. That is, we provide exact parsing according to the IEEE standard.
 Given a successful parse, the pointer (`ptr`) in the returned value is set to
 point right after the parsed number, and the `value` referenced is set to the
 parsed value. In case of error, the returned `ec` contains a representative
-error, otherwise the default (`std::errc()`) value is stored.
+error, otherwise the default (`fast_float::errc()`) value is stored.
 
 The implementation does not throw and does not allocate memory (e.g., with `new`
 or `malloc`).
@@ -63,7 +63,7 @@ int main() {
   const std::string input = "3.1416 xyz ";
   double result;
   auto answer = fast_float::from_chars(input.data(), input.data() + input.size(), result);
-  if (answer.ec != std::errc()) { std::cerr << "parsing failure\n"; return EXIT_FAILURE; }
+  if (answer.ec != fast_float::errc()) { std::cerr << "parsing failure\n"; return EXIT_FAILURE; }
   std::cout << "parsed the number " << result << std::endl;
   return EXIT_SUCCESS;
 }
@@ -75,7 +75,7 @@ You can parse delimited numbers:
   const std::string input = "234532.3426362,7869234.9823,324562.645";
   double result;
   auto answer = fast_float::from_chars(input.data(), input.data() + input.size(), result);
-  if (answer.ec != std::errc()) {
+  if (answer.ec != fast_float::errc()) {
     // check error
   }
   // we have result == 234532.3426362.
@@ -83,7 +83,7 @@ You can parse delimited numbers:
     // unexpected delimiter
   }
   answer = fast_float::from_chars(answer.ptr + 1, input.data() + input.size(), result);
-  if (answer.ec != std::errc()) {
+  if (answer.ec != fast_float::errc()) {
     // check error
   }
   // we have result == 7869234.9823.
@@ -91,7 +91,7 @@ You can parse delimited numbers:
     // unexpected delimiter
   }
   answer = fast_float::from_chars(answer.ptr + 1, input.data() + input.size(), result);
-  if (answer.ec != std::errc()) {
+  if (answer.ec != fast_float::errc()) {
     // check error
   }
   // we have result == 324562.645.
@@ -124,7 +124,7 @@ Furthermore, we have the following restrictions:
 * We only support the decimal format: we do not support hexadecimal strings.
 * For values that are either very large or very small (e.g., `1e9999`), we
   represent it using the infinity or negative infinity value and the returned
-  `ec` is set to `std::errc::result_out_of_range`.
+  `ec` is set to `fast_float::errc::result_out_of_range`.
 
 We support Visual Studio, macOS, Linux, freeBSD. We support big and little
 endian. We support 32-bit and 64-bit systems.
@@ -145,7 +145,7 @@ int main() {
   uint64_t i;
   const char str[] = "22250738585072012";
   auto answer = fast_float::from_chars(str, str + strlen(str), i);
-  if (answer.ec != std::errc()) {
+  if (answer.ec != fast_float::errc()) {
     std::cerr << "parsing failure\n";
     return EXIT_FAILURE;
   }
@@ -154,7 +154,7 @@ int main() {
   const char binstr[] = "1001111000011001110110111001001010110100111000110001100";
 
   answer = fast_float::from_chars(binstr, binstr + strlen(binstr), i, 2);
-  if (answer.ec != std::errc()) {
+  if (answer.ec != fast_float::errc()) {
     std::cerr << "parsing failure\n";
     return EXIT_FAILURE;
   }
@@ -163,7 +163,7 @@ int main() {
   const char hexstr[] = "4f0cedc95a718c";
 
   answer = fast_float::from_chars(hexstr, hexstr + strlen(hexstr), i, 16);
-  if (answer.ec != std::errc()) {
+  if (answer.ec != fast_float::errc()) {
     std::cerr << "parsing failure\n";
     return EXIT_FAILURE;
   }
@@ -195,7 +195,7 @@ Hence, we have the following examples:
   double result = -1;
   std::string str = "3e-1000";
   auto r = fast_float::from_chars(str.data(), str.data() + str.size(), result);
-  // r.ec == std::errc::result_out_of_range
+  // r.ec == fast_float::errc::result_out_of_range
   // r.ptr == str.data() + 7
   // result == 0
 ```
@@ -204,18 +204,18 @@ Hence, we have the following examples:
   double result = -1;
   std::string str = "3e1000";
   auto r = fast_float::from_chars(str.data(), str.data() + str.size(), result);
-  // r.ec == std::errc::result_out_of_range
+  // r.ec == fast_float::errc::result_out_of_range
   // r.ptr == str.data() + 6
   // result == std::numeric_limits<double>::infinity()
 ```
 
 Users who wish for the value to be left unmodified given
-`std::errc::result_out_of_range` may do so by adding two lines of code:
+`fast_float::errc::result_out_of_range` may do so by adding two lines of code:
 
 ```cpp
   double old_result = result; // make copy
   auto r = fast_float::from_chars(start, end, result);
-  if (r.ec == std::errc::result_out_of_range) { result = old_result; }
+  if (r.ec == fast_float::errc::result_out_of_range) { result = old_result; }
 ```
 
 ## C++20: compile-time evaluation (constexpr)
@@ -228,7 +228,7 @@ as in the following example:
 consteval double parse(std::string_view input) {
   double result;
   auto answer = fast_float::from_chars(input.data(), input.data() + input.size(), result);
-  if (answer.ec != std::errc()) { return -1.0; }
+  if (answer.ec != fast_float::errc()) { return -1.0; }
   return result;
 }
 
@@ -262,7 +262,7 @@ int main() {
   const std::u16string input = u"3.1416 xyz ";
   double result;
   auto answer = fast_float::from_chars(input.data(), input.data() + input.size(), result);
-  if (answer.ec != std::errc()) { std::cerr << "parsing failure\n"; return EXIT_FAILURE; }
+  if (answer.ec != fast_float::errc()) { std::cerr << "parsing failure\n"; return EXIT_FAILURE; }
   std::cout << "parsed the number " << result << std::endl;
   return EXIT_SUCCESS;
 }
@@ -286,7 +286,7 @@ int main() {
   double result;
   fast_float::parse_options options{fast_float::chars_format::general, ','};
   auto answer = fast_float::from_chars_advanced(input.data(), input.data() + input.size(), result, options);
-  if ((answer.ec != std::errc()) || ((result != 3.1416))) { std::cerr << "parsing failure\n"; return EXIT_FAILURE; }
+  if ((answer.ec != fast_float::errc()) || ((result != 3.1416))) { std::cerr << "parsing failure\n"; return EXIT_FAILURE; }
   std::cout << "parsed the number " << result << std::endl;
   return EXIT_SUCCESS;
 }
@@ -303,7 +303,7 @@ int main() {
   double result;
   fast_float::parse_options options{ fast_float::chars_format::fortran };
   auto answer = fast_float::from_chars_advanced(input.data(), input.data() + input.size(), result, options);
-  if ((answer.ec != std::errc()) || ((result != 10000))) { std::cerr << "parsing failure\n"; return EXIT_FAILURE; }
+  if ((answer.ec != fast_float::errc()) || ((result != 10000))) { std::cerr << "parsing failure\n"; return EXIT_FAILURE; }
   std::cout << "parsed the number " << result << std::endl;
   return EXIT_SUCCESS;
 }
@@ -320,7 +320,7 @@ int main() {
   double result;
   fast_float::parse_options options{ fast_float::chars_format::json };
   auto answer = fast_float::from_chars_advanced(input.data(), input.data() + input.size(), result, options);
-  if (answer.ec == std::errc()) { std::cerr << "should have failed\n"; return EXIT_FAILURE; }
+  if (answer.ec == fast_float::errc()) { std::cerr << "should have failed\n"; return EXIT_FAILURE; }
   return EXIT_SUCCESS;
 }
 ```
@@ -336,7 +336,7 @@ int main() {
   double result;
   fast_float::parse_options options{ fast_float::chars_format::json };
   auto answer = fast_float::from_chars_advanced(input.data(), input.data() + input.size(), result, options);
-  if (answer.ec == std::errc()) { std::cerr << "should have failed\n"; return EXIT_FAILURE; }
+  if (answer.ec == fast_float::errc()) { std::cerr << "should have failed\n"; return EXIT_FAILURE; }
   return EXIT_SUCCESS;
 }
 ```
@@ -352,7 +352,7 @@ int main() {
   double result;
   fast_float::parse_options options{ fast_float::chars_format::json_or_infnan };
   auto answer = fast_float::from_chars_advanced(input.data(), input.data() + input.size(), result, options);
-  if (answer.ec != std::errc() || (!std::isinf(result))) { std::cerr << "should have parsed infinity\n"; return EXIT_FAILURE; }
+  if (answer.ec != fast_float::errc() || (!std::isinf(result))) { std::cerr << "should have parsed infinity\n"; return EXIT_FAILURE; }
   return EXIT_SUCCESS;
 }
 ```

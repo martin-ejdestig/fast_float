@@ -483,7 +483,7 @@ parse_int_string(UC const *p, UC const *pend, T &value,
 
   bool const negative = (*p == UC('-'));
   if (!std::is_signed<T>::value && negative) {
-    answer.ec = std::errc::invalid_argument;
+    answer.ec = errc::invalid_argument;
     answer.ptr = first;
     return answer;
   }
@@ -520,10 +520,10 @@ parse_int_string(UC const *p, UC const *pend, T &value,
   if (digit_count == 0) {
     if (has_leading_zeros) {
       value = 0;
-      answer.ec = std::errc();
+      answer.ec = errc();
       answer.ptr = p;
     } else {
-      answer.ec = std::errc::invalid_argument;
+      answer.ec = errc::invalid_argument;
       answer.ptr = first;
     }
     return answer;
@@ -534,20 +534,20 @@ parse_int_string(UC const *p, UC const *pend, T &value,
   // check u64 overflow
   size_t max_digits = max_digits_u64(base);
   if (digit_count > max_digits) {
-    answer.ec = std::errc::result_out_of_range;
+    answer.ec = errc::result_out_of_range;
     return answer;
   }
   // this check can be eliminated for all other types, but they will all require
   // a max_digits(base) equivalent
   if (digit_count == max_digits && i < min_safe_u64(base)) {
-    answer.ec = std::errc::result_out_of_range;
+    answer.ec = errc::result_out_of_range;
     return answer;
   }
 
   // check other types overflow
   if (!std::is_same<T, uint64_t>::value) {
     if (i > uint64_t(std::numeric_limits<T>::max()) + uint64_t(negative)) {
-      answer.ec = std::errc::result_out_of_range;
+      answer.ec = errc::result_out_of_range;
       return answer;
     }
   }
@@ -572,7 +572,7 @@ parse_int_string(UC const *p, UC const *pend, T &value,
     value = T(i);
   }
 
-  answer.ec = std::errc();
+  answer.ec = errc();
   return answer;
 }
 

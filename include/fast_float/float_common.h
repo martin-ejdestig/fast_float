@@ -18,6 +18,11 @@ namespace fast_float {
 
 enum class chars_format : uint64_t;
 
+enum class errc {
+  invalid_argument = 22,   // EINVAL
+  result_out_of_range = 34 // ERANGE
+};
+
 namespace detail {
 constexpr chars_format basic_json_fmt = chars_format(1 << 5);
 constexpr chars_format basic_fortran_fmt = chars_format(1 << 6);
@@ -40,7 +45,7 @@ enum class chars_format : uint64_t {
 
 template <typename UC> struct from_chars_result_t {
   UC const *ptr;
-  std::errc ec;
+  errc ec;
 };
 using from_chars_result = from_chars_result_t<char>;
 

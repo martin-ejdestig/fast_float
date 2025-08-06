@@ -10,7 +10,7 @@ int main() {
   fast_float::parse_options options{fast_float::chars_format::general, ','};
   auto answer = fast_float::from_chars_advanced(
       input.data(), input.data() + input.size(), result, options);
-  if ((answer.ec != std::errc()) || ((result != 3.1416))) {
+  if ((answer.ec != fast_float::errc()) || ((result != 3.1416))) {
     std::cerr << "parsing failure\n";
     return EXIT_FAILURE;
   }

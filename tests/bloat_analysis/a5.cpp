@@ -4,7 +4,7 @@ double get5(const char *input) {
   double result_value;
   auto result =
       fast_float::from_chars(input, input + strlen(input), result_value);
-  if (result.ec != std::errc()) {
+  if (result.ec != fast_float::errc()) {
     return 5;
   }
   return result_value;

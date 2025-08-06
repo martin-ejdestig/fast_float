@@ -23,7 +23,7 @@ int main() {
     std::float32_t result;
     auto answer = fast_float::from_chars(f.data(), f.data() + f.size(), result);
 
-    if (answer.ec != std::errc()) {
+    if (answer.ec != fast_float::errc()) {
       std::cerr << "Failed to parse: \"" << f << "\"" << std::endl;
       return EXIT_FAILURE;
     }
@@ -50,7 +50,7 @@ int main() {
     std::float64_t result;
     auto answer = fast_float::from_chars(f.data(), f.data() + f.size(), result);
 
-    if (answer.ec != std::errc()) {
+    if (answer.ec != fast_float::errc()) {
       std::cerr << "Failed to parse: \"" << f << "\"" << std::endl;
       return EXIT_FAILURE;
     }

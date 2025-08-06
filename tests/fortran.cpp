@@ -14,7 +14,7 @@ int main_readme() {
       fast_float::chars_format::allow_leading_plus};
   auto answer = fast_float::from_chars_advanced(
       input.data(), input.data() + input.size(), result, options);
-  if ((answer.ec != std::errc()) || ((result != 10000))) {
+  if ((answer.ec != fast_float::errc()) || ((result != 10000))) {
     std::cerr << "parsing failure\n" << result << "\n";
     return EXIT_FAILURE;
   }
@@ -40,7 +40,7 @@ int main() {
     double result;
     auto answer{fast_float::from_chars_advanced(f.data(), f.data() + f.size(),
                                                 result, options)};
-    if (answer.ec != std::errc() || result != expected[std::size_t(d)]) {
+    if (answer.ec != fast_float::errc() || result != expected[std::size_t(d)]) {
       std::cerr << "parsing failure on " << f << std::endl;
       return EXIT_FAILURE;
     }
@@ -51,7 +51,7 @@ int main() {
     double result;
     auto answer{fast_float::from_chars_advanced(f.data(), f.data() + f.size(),
                                                 result, options)};
-    if (answer.ec != std::errc() || result != expected[std::size_t(d)]) {
+    if (answer.ec != fast_float::errc() || result != expected[std::size_t(d)]) {
       std::cerr << "parsing failure on " << f << std::endl;
       return EXIT_FAILURE;
     }
@@ -62,7 +62,7 @@ int main() {
     double result;
     auto answer{fast_float::from_chars_advanced(f.data(), f.data() + f.size(),
                                                 result, options)};
-    if (answer.ec != std::errc() || result != expected[std::size_t(d)]) {
+    if (answer.ec != fast_float::errc() || result != expected[std::size_t(d)]) {
       std::cerr << "parsing failure on " << f << std::endl;
       return EXIT_FAILURE;
     }

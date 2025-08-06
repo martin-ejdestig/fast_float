@@ -55,11 +55,11 @@ int main() {
     int result;
     auto answer = fast_float::from_chars(f.data(), f.data() + f.size(), result);
 
-    if (answer.ec != std::errc()) {
-      if (answer.ec == std::errc::invalid_argument) {
+    if (answer.ec != fast_float::errc()) {
+      if (answer.ec == fast_float::errc::invalid_argument) {
         std::cerr << "could not convert to int for input: \"" << f
                   << "\" because of invalid argument" << std::endl;
-      } else if (answer.ec == std::errc::result_out_of_range) {
+      } else if (answer.ec == fast_float::errc::result_out_of_range) {
         std::cerr << "could not convert to int for input: \"" << f
                   << "\" because it's out of range" << std::endl;
       } else {
@@ -83,7 +83,7 @@ int main() {
     const auto &f = unsigned_basic_test[i];
     unsigned result;
     auto answer = fast_float::from_chars(f.data(), f.data() + f.size(), result);
-    if (answer.ec != std::errc()) {
+    if (answer.ec != fast_float::errc()) {
       std::cerr << "could not convert to unsigned for input: \"" << f << "\""
                 << std::endl;
       return EXIT_FAILURE;
@@ -103,7 +103,7 @@ int main() {
     const auto &f = int_invalid_argument_test[i];
     int result;
     auto answer = fast_float::from_chars(f.data(), f.data() + f.size(), result);
-    if (answer.ec != std::errc::invalid_argument) {
+    if (answer.ec != fast_float::errc::invalid_argument) {
       std::cerr << "expected error should be 'invalid_argument' for: \"" << f
                 << "\"" << std::endl;
       return EXIT_FAILURE;
@@ -118,7 +118,7 @@ int main() {
     const auto &f = unsigned_invalid_argument_test[i];
     unsigned result;
     auto answer = fast_float::from_chars(f.data(), f.data() + f.size(), result);
-    if (answer.ec != std::errc::invalid_argument) {
+    if (answer.ec != fast_float::errc::invalid_argument) {
       std::cerr << "expected error should be 'invalid_argument' for: \"" << f
                 << "\"" << std::endl;
       return EXIT_FAILURE;
@@ -133,7 +133,7 @@ int main() {
     const auto &f = int_out_of_range_test_1[i];
     int8_t result;
     auto answer = fast_float::from_chars(f.data(), f.data() + f.size(), result);
-    if (answer.ec != std::errc::result_out_of_range) {
+    if (answer.ec != fast_float::errc::result_out_of_range) {
       std::cerr << "expected error for should be 'result_out_of_range': \"" << f
                 << "\"" << std::endl;
       return EXIT_FAILURE;
@@ -148,7 +148,7 @@ int main() {
     const auto &f = int_out_of_range_test_2[i];
     int16_t result;
     auto answer = fast_float::from_chars(f.data(), f.data() + f.size(), result);
-    if (answer.ec != std::errc::result_out_of_range) {
+    if (answer.ec != fast_float::errc::result_out_of_range) {
       std::cerr << "expected error for should be 'result_out_of_range': \"" << f
                 << "\"" << std::endl;
       return EXIT_FAILURE;
@@ -163,7 +163,7 @@ int main() {
     const auto &f = int_out_of_range_test_3[i];
     int32_t result;
     auto answer = fast_float::from_chars(f.data(), f.data() + f.size(), result);
-    if (answer.ec != std::errc::result_out_of_range) {
+    if (answer.ec != fast_float::errc::result_out_of_range) {
       std::cerr << "expected error for should be 'result_out_of_range': \"" << f
                 << "\"" << std::endl;
       return EXIT_FAILURE;
@@ -178,7 +178,7 @@ int main() {
     const auto &f = int_out_of_range_test_4[i];
     int64_t result;
     auto answer = fast_float::from_chars(f.data(), f.data() + f.size(), result);
-    if (answer.ec != std::errc::result_out_of_range) {
+    if (answer.ec != fast_float::errc::result_out_of_range) {
       std::cerr << "expected error for should be 'result_out_of_range': \"" << f
                 << "\"" << std::endl;
       return EXIT_FAILURE;
@@ -193,7 +193,7 @@ int main() {
     const auto &f = unsigned_out_of_range_test_1[i];
     uint8_t result;
     auto answer = fast_float::from_chars(f.data(), f.data() + f.size(), result);
-    if (answer.ec != std::errc::result_out_of_range) {
+    if (answer.ec != fast_float::errc::result_out_of_range) {
       std::cerr << "expected error for should be 'result_out_of_range': \"" << f
                 << "\"" << std::endl;
       return EXIT_FAILURE;
@@ -208,7 +208,7 @@ int main() {
     const auto &f = unsigned_out_of_range_test_2[i];
     uint16_t result;
     auto answer = fast_float::from_chars(f.data(), f.data() + f.size(), result);
-    if (answer.ec != std::errc::result_out_of_range) {
+    if (answer.ec != fast_float::errc::result_out_of_range) {
       std::cerr << "expected error for should be 'result_out_of_range': \"" << f
                 << "\"" << std::endl;
       return EXIT_FAILURE;
@@ -223,7 +223,7 @@ int main() {
     const auto &f = unsigned_out_of_range_test_3[i];
     uint32_t result;
     auto answer = fast_float::from_chars(f.data(), f.data() + f.size(), result);
-    if (answer.ec != std::errc::result_out_of_range) {
+    if (answer.ec != fast_float::errc::result_out_of_range) {
       std::cerr << "expected error for should be 'result_out_of_range': \"" << f
                 << "\"" << std::endl;
       return EXIT_FAILURE;
@@ -238,7 +238,7 @@ int main() {
     const auto &f = unsigned_out_of_range_test_4[i];
     uint64_t result;
     auto answer = fast_float::from_chars(f.data(), f.data() + f.size(), result);
-    if (answer.ec != std::errc::result_out_of_range) {
+    if (answer.ec != fast_float::errc::result_out_of_range) {
       std::cerr << "expected error for should be 'result_out_of_range': \"" << f
                 << "\"" << std::endl;
       return EXIT_FAILURE;
@@ -252,7 +252,7 @@ int main() {
     const auto &f = int_pointer_test_1[i];
     int result;
     auto answer = fast_float::from_chars(f.data(), f.data() + f.size(), result);
-    if (answer.ec != std::errc()) {
+    if (answer.ec != fast_float::errc()) {
       std::cerr << "could not convert to int for input: \"" << f << "\""
                 << std::endl;
       return EXIT_FAILURE;
@@ -351,7 +351,7 @@ int main() {
     int result;
     auto answer =
         fast_float::from_chars(f.data(), f.data() + f.size(), result, 2);
-    if (answer.ec != std::errc()) {
+    if (answer.ec != fast_float::errc()) {
       std::cerr << "could not convert to int for input: \"" << f << "\""
                 << std::endl;
       return EXIT_FAILURE;
@@ -372,7 +372,7 @@ int main() {
     unsigned result;
     auto answer =
         fast_float::from_chars(f.data(), f.data() + f.size(), result, 2);
-    if (answer.ec != std::errc()) {
+    if (answer.ec != fast_float::errc()) {
       std::cerr << "could not convert to unsigned for input: \"" << f << "\""
                 << std::endl;
       return EXIT_FAILURE;
@@ -392,7 +392,7 @@ int main() {
     int result;
     auto answer =
         fast_float::from_chars(f.data(), f.data() + f.size(), result, 2);
-    if (answer.ec != std::errc::invalid_argument) {
+    if (answer.ec != fast_float::errc::invalid_argument) {
       std::cerr << "expected error should be 'invalid_argument' for: \"" << f
                 << "\"" << std::endl;
       return EXIT_FAILURE;
@@ -409,7 +409,7 @@ int main() {
     unsigned result;
     auto answer =
         fast_float::from_chars(f.data(), f.data() + f.size(), result, 2);
-    if (answer.ec != std::errc::invalid_argument) {
+    if (answer.ec != fast_float::errc::invalid_argument) {
       std::cerr << "expected error should be 'invalid_argument' for: \"" << f
                 << "\"" << std::endl;
       return EXIT_FAILURE;
@@ -426,7 +426,7 @@ int main() {
     int result;
     auto answer =
         fast_float::from_chars(f.data(), f.data() + f.size(), result, 8);
-    if (answer.ec != std::errc()) {
+    if (answer.ec != fast_float::errc()) {
       std::cerr << "could not convert to int for input: \"" << f << "\""
                 << std::endl;
       return EXIT_FAILURE;
@@ -447,7 +447,7 @@ int main() {
     int result;
     auto answer =
         fast_float::from_chars(f.data(), f.data() + f.size(), result, 16);
-    if (answer.ec != std::errc()) {
+    if (answer.ec != fast_float::errc()) {
       std::cerr << "could not convert to int for input: \"" << f << "\""
                 << std::endl;
       return EXIT_FAILURE;
@@ -467,7 +467,7 @@ int main() {
     int result;
     auto answer =
         fast_float::from_chars(f.data(), f.data() + f.size(), result, -1);
-    if (answer.ec != std::errc::invalid_argument) {
+    if (answer.ec != fast_float::errc::invalid_argument) {
       std::cerr << "expected error should be 'invalid_argument' for: \"" << f
                 << "\"" << std::endl;
       return EXIT_FAILURE;
@@ -483,7 +483,7 @@ int main() {
     int result;
     auto answer =
         fast_float::from_chars(f.data(), f.data() + f.size(), result, 37);
-    if (answer.ec != std::errc::invalid_argument) {
+    if (answer.ec != fast_float::errc::invalid_argument) {
       std::cerr << "expected error should be 'invalid_argument' for: \"" << f
                 << "\"" << std::endl;
       return EXIT_FAILURE;
@@ -568,7 +568,7 @@ int main() {
     int64_t result;
     auto answer = fast_float::from_chars(f.data(), f.data() + f.size(), result,
                                          int(2 + (i / 2)));
-    if (answer.ec != std::errc::result_out_of_range) {
+    if (answer.ec != fast_float::errc::result_out_of_range) {
       std::cerr << "expected error for should be 'result_out_of_range': \"" << f
                 << "\"" << std::endl;
       return EXIT_FAILURE;
@@ -618,7 +618,7 @@ int main() {
     uint64_t result;
     auto answer = fast_float::from_chars(f.data(), f.data() + f.size(), result,
                                          base_unsigned);
-    if (answer.ec != std::errc::result_out_of_range) {
+    if (answer.ec != fast_float::errc::result_out_of_range) {
       std::cerr << "expected error for should be 'result_out_of_range': \"" << f
                 << "\"" << std::endl;
       return EXIT_FAILURE;
@@ -704,7 +704,7 @@ int main() {
     int64_t result;
     auto answer = fast_float::from_chars(f.data(), f.data() + f.size(), result,
                                          int(2 + (i / 2)));
-    if (answer.ec != std::errc()) {
+    if (answer.ec != fast_float::errc()) {
       std::cerr << "converting " << f
                 << " to int failed (most likely out of range)" << std::endl;
       return EXIT_FAILURE;
@@ -754,7 +754,7 @@ int main() {
     uint64_t result;
     auto answer = fast_float::from_chars(f.data(), f.data() + f.size(), result,
                                          base_unsigned2);
-    if (answer.ec != std::errc()) {
+    if (answer.ec != fast_float::errc()) {
       std::cerr << "converting " << f
                 << " to unsigned failed (most likely out of range)"
                 << std::endl;
@@ -807,7 +807,7 @@ int main() {
     int result;
     auto answer = fast_float::from_chars(f.data(), f.data() + f.size(), result,
                                          int(i + 2));
-    if (answer.ec != std::errc()) {
+    if (answer.ec != fast_float::errc()) {
       std::cerr << "could not convert to int for input: \"" << f << "\""
                 << std::endl;
       return EXIT_FAILURE;
@@ -823,7 +823,7 @@ int main() {
     s.shrink_to_fit();
     int foo;
     auto answer = fast_float::from_chars(s.data(), s.data() + s.size(), foo);
-    if (answer.ec != std::errc()) {
+    if (answer.ec != fast_float::errc()) {
       std::cerr << "could not convert to int for input: '0'" << std::endl;
       return EXIT_FAILURE;
     } else if (foo != 0) {
