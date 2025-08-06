@@ -22,7 +22,7 @@ namespace fast_float {
 
 template <typename UC> fastfloat_really_inline constexpr bool has_simd_opt() {
 #ifdef FASTFLOAT_HAS_SIMD
-  return std::is_same<UC, char16_t>::value;
+  return is_same_v<UC, char16_t>;
 #else
   return false;
 #endif
@@ -46,7 +46,7 @@ fastfloat_really_inline constexpr uint64_t byteswap(uint64_t val) {
 template <typename UC>
 fastfloat_really_inline FASTFLOAT_CONSTEXPR20 uint64_t
 read8_to_u64(const UC *chars) {
-  if (cpp20_and_in_constexpr() || !std::is_same<UC, char>::value) {
+  if (cpp20_and_in_constexpr() || !is_same_v<UC, char>) {
     uint64_t val = 0;
     for (int i = 0; i < 8; ++i) {
       val |= uint64_t(uint8_t(*chars)) << (i * 8);
@@ -206,7 +206,7 @@ bool simd_parse_if_eight_digits_unrolled(UC const *, uint64_t &) {
   return 0;
 }
 
-template <typename UC, FASTFLOAT_ENABLE_IF(!std::is_same<UC, char>::value) = 0>
+template <typename UC, FASTFLOAT_ENABLE_IF(!is_same_v<UC, char>) = 0>
 fastfloat_really_inline FASTFLOAT_CONSTEXPR20 void
 loop_parse_if_eight_digits(const UC *&p, const UC *const pend, uint64_t &i) {
   if (!has_simd_opt<UC>()) {
@@ -545,7 +545,7 @@ parse_int_string(UC const *p, UC const *pend, T &value,
   }
 
   // check other types overflow
-  if (!std::is_same<T, uint64_t>::value) {
+  if (!is_same_v<T, uint64_t>) {
     if (i > uint64_t(numeric_limits<T>::max()) + uint64_t(negative)) {
       answer.ec = errc::result_out_of_range;
       return answer;

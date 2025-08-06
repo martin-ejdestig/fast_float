@@ -207,6 +207,14 @@ template <typename T> struct enable_if<true, T> {
   using type = T;
 };
 
+#if defined(__clang__) || defined(__GNUC__)
+template <typename T, typename U>
+static inline constexpr bool is_same_v = __is_same(T, U);
+#else
+template <typename, typename> static inline constexpr bool is_same_v = false;
+template <typename T> static inline constexpr bool is_same_v<T, T> = true;
+#endif
+
 // Implement what is used from std::numeric_limits with float.h, stdint.h and
 // __builtin_*() available in GCC, Clang and MSVC. libstdc++, libc++ and MS STL
 // all use these __builtin_*() to implement parts of std::numeric_limits so use
@@ -263,20 +271,20 @@ fastfloat_really_inline constexpr bool cpp20_and_in_constexpr() {
 
 template <typename T>
 fastfloat_really_inline constexpr bool is_supported_float_type() {
-  return std::is_same<T, float>::value || std::is_same<T, double>::value
+  return is_same_v<T, float> || is_same_v<T, double>
 #if __STDCPP_FLOAT32_T__
-         || std::is_same<T, std::float32_t>::value
+         || is_same_v<T, std::float32_t>
 #endif
 #if __STDCPP_FLOAT64_T__
-         || std::is_same<T, std::float64_t>::value
+         || is_same_v<T, std::float64_t>
 #endif
       ;
 }
 
 template <typename UC>
 fastfloat_really_inline constexpr bool is_supported_char_type() {
-  return std::is_same<UC, char>::value || std::is_same<UC, wchar_t>::value ||
-         std::is_same<UC, char16_t>::value || std::is_same<UC, char32_t>::value;
+  return is_same_v<UC, char> || is_same_v<UC, wchar_t> ||
+         is_same_v<UC, char16_t> || is_same_v<UC, char32_t>;
 }
 
 // Compares two ASCII strings in a case insensitive manner.
