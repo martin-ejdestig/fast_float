@@ -6,10 +6,9 @@
 #include "digit_comparison.h"
 #include "float_common.h"
 
-#include <cmath>
-#include <cstring>
-#include <limits>
-#include <system_error>
+#include <math.h>
+#include <string.h>
+
 namespace fast_float {
 
 namespace detail {

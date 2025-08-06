@@ -1,10 +1,8 @@
 #ifndef FASTFLOAT_DIGIT_COMPARISON_H
 #define FASTFLOAT_DIGIT_COMPARISON_H
 
-#include <algorithm>
-#include <cstdint>
-#include <cstring>
-#include <iterator>
+#include <stdint.h>
+#include <string.h>
 
 #include "float_common.h"
 #include "bigint.h"

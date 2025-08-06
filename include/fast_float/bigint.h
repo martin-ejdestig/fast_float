@@ -1,10 +1,9 @@
 #ifndef FASTFLOAT_BIGINT_H
 #define FASTFLOAT_BIGINT_H
 
-#include <algorithm>
-#include <cstdint>
-#include <climits>
-#include <cstring>
+#include <stdint.h>
+#include <limits.h>
+#include <string.h>
 
 #include "float_common.h"
 

@@ -1,12 +1,9 @@
 #ifndef FASTFLOAT_ASCII_NUMBER_H
 #define FASTFLOAT_ASCII_NUMBER_H
 
-#include <cctype>
-#include <cstdint>
-#include <cstring>
-#include <iterator>
-#include <limits>
-#include <type_traits>
+#include <ctype.h>
+#include <stdint.h>
+#include <string.h>
 
 #include "float_common.h"
 

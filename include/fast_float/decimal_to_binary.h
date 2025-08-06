@@ -3,12 +3,13 @@
 
 #include "float_common.h"
 #include "fast_table.h"
-#include <cfloat>
-#include <cinttypes>
-#include <cmath>
-#include <cstdint>
-#include <cstdlib>
-#include <cstring>
+
+#include <float.h>
+#include <inttypes.h>
+#include <math.h>
+#include <stdint.h>
+#include <stdlib.h>
+#include <string.h>
 
 namespace fast_float {
 

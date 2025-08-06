@@ -1,20 +1,10 @@
 #ifndef FASTFLOAT_FLOAT_COMMON_H
 #define FASTFLOAT_FLOAT_COMMON_H
 
-#include <cfloat>
-#include <cstdint>
-#include <cassert>
-#include <cstring>
-#include <type_traits>
-#include <system_error>
-#ifdef __has_include
-#if __has_include(<stdfloat>) && (__cplusplus > 202002L || _MSVC_LANG > 202002L)
-#include <stdfloat>
-#endif
-#endif
-
+#include <assert.h>
 #include <float.h>
 #include <stdint.h>
+#include <string.h>
 
 #include "constexpr_feature_detect.h"
 
@@ -68,10 +58,6 @@ template <typename UC> struct parse_options_t {
 using parse_options = parse_options_t<char>;
 
 } // namespace fast_float
-
-#if FASTFLOAT_HAS_BIT_CAST
-#include <bit>
-#endif
 
 #if (defined(__x86_64) || defined(__x86_64__) || defined(_M_X64) ||            \
      defined(__amd64) || defined(__aarch64__) || defined(_M_ARM64) ||          \

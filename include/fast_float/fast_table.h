@@ -1,7 +1,7 @@
 #ifndef FASTFLOAT_FAST_TABLE_H
 #define FASTFLOAT_FAST_TABLE_H
 
-#include <cstdint>
+#include <stdint.h>
 
 namespace fast_float {
 
