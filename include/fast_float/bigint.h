@@ -525,14 +525,17 @@ struct bigint : pow5_tables<> {
     if (n + vec.len() > vec.capacity()) {
       return false;
     } else if (!vec.is_empty()) {
-      // move limbs
-      limb *dst = vec.data + n;
-      const limb *src = vec.data;
-      std::copy_backward(src, src + vec.len(), dst + vec.len());
-      // fill in empty limbs
-      limb *first = vec.data;
-      limb *last = first + n;
-      while (first != last) *first++ = 0;
+      { // move limbs (copy backwards)
+        const limb *first = vec.data;
+        const limb *last = vec.data + vec.len();
+        limb *d_last = vec.data + n + vec.len();
+        while (first != last) *(--d_last) = *(--last);
+      }
+      { // fill in empty limbs
+        limb *first = vec.data;
+        limb *last = first + n;
+        while (first != last) *first++ = 0;
+      }
       vec.set_len(n + vec.len());
       return true;
     } else {
