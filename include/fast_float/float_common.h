@@ -222,6 +222,9 @@ template <typename, typename> static inline constexpr bool is_same_v = false;
 template <typename T> static inline constexpr bool is_same_v<T, T> = true;
 #endif
 
+// __underlying_type() is what GCC, Clang and MSVC uses to implement std::underlying_type*.
+template <typename T> using underlying_type_t = __underlying_type(T);
+
 // Implement what is used from std::numeric_limits with float.h, stdint.h and
 // __builtin_*() available in GCC, Clang and MSVC. libstdc++, libc++ and MS STL
 // all use these __builtin_*() to implement parts of std::numeric_limits so use
@@ -904,24 +907,24 @@ fastfloat_really_inline constexpr uint64_t min_safe_u64(int base) {
 }
 
 constexpr chars_format operator~(chars_format rhs) noexcept {
-  using int_type = std::underlying_type<chars_format>::type;
+  using int_type = underlying_type_t<chars_format>;
   return static_cast<chars_format>(~static_cast<int_type>(rhs));
 }
 
 constexpr chars_format operator&(chars_format lhs, chars_format rhs) noexcept {
-  using int_type = std::underlying_type<chars_format>::type;
+  using int_type = underlying_type_t<chars_format>;
   return static_cast<chars_format>(static_cast<int_type>(lhs) &
                                    static_cast<int_type>(rhs));
 }
 
 constexpr chars_format operator|(chars_format lhs, chars_format rhs) noexcept {
-  using int_type = std::underlying_type<chars_format>::type;
+  using int_type = underlying_type_t<chars_format>;
   return static_cast<chars_format>(static_cast<int_type>(lhs) |
                                    static_cast<int_type>(rhs));
 }
 
 constexpr chars_format operator^(chars_format lhs, chars_format rhs) noexcept {
-  using int_type = std::underlying_type<chars_format>::type;
+  using int_type = underlying_type_t<chars_format>;
   return static_cast<chars_format>(static_cast<int_type>(lhs) ^
                                    static_cast<int_type>(rhs));
 }
