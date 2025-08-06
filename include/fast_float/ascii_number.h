@@ -212,7 +212,7 @@ loop_parse_if_eight_digits(const UC *&p, const UC *const pend, uint64_t &i) {
   if (!has_simd_opt<UC>()) {
     return;
   }
-  while ((std::distance(p, pend) >= 8) &&
+  while ((pend - p >= 8) &&
          simd_parse_if_eight_digits_unrolled(
              p, i)) { // in rare cases, this will overflow, but that's ok
     p += 8;
@@ -223,7 +223,7 @@ fastfloat_really_inline FASTFLOAT_CONSTEXPR20 void
 loop_parse_if_eight_digits(const char *&p, const char *const pend,
                            uint64_t &i) {
   // optimizes better than parse_if_eight_digits_unrolled() for UC = char.
-  while ((std::distance(p, pend) >= 8) &&
+  while ((pend - p >= 8) &&
          is_made_of_eight_digits_fast(read8_to_u64(p))) {
     i = i * 100000000 +
         parse_eight_digits_unrolled(read8_to_u64(

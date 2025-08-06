@@ -175,7 +175,7 @@ fastfloat_really_inline FASTFLOAT_CONSTEXPR20 void
 skip_zeros(UC const *&first, UC const *last) noexcept {
   uint64_t val;
   while (!cpp20_and_in_constexpr() &&
-         std::distance(first, last) >= int_cmp_len<UC>()) {
+         last - first >= int_cmp_len<UC>()) {
     ::memcpy(&val, first, sizeof(uint64_t));
     if (val != int_cmp_zeros<UC>()) {
       break;
@@ -198,7 +198,7 @@ is_truncated(UC const *first, UC const *last) noexcept {
   // do 8-bit optimizations, can just compare to 8 literal 0s.
   uint64_t val;
   while (!cpp20_and_in_constexpr() &&
-         std::distance(first, last) >= int_cmp_len<UC>()) {
+         last - first >= int_cmp_len<UC>()) {
     ::memcpy(&val, first, sizeof(uint64_t));
     if (val != int_cmp_zeros<UC>()) {
       return true;
@@ -276,7 +276,7 @@ parse_mantissa(bigint &result, parsed_number_string_t<UC> &num,
   skip_zeros(p, pend);
   // process all digits, in increments of step per loop
   while (p != pend) {
-    while ((std::distance(p, pend) >= 8) && (step - counter >= 8) &&
+    while ((pend - p >= 8) && (step - counter >= 8) &&
            (max_digits - digits >= 8)) {
       parse_eight_digits(p, value, counter, digits);
     }
@@ -310,7 +310,7 @@ parse_mantissa(bigint &result, parsed_number_string_t<UC> &num,
     }
     // process all digits, in increments of step per loop
     while (p != pend) {
-      while ((std::distance(p, pend) >= 8) && (step - counter >= 8) &&
+      while ((pend - p >= 8) && (step - counter >= 8) &&
              (max_digits - digits >= 8)) {
         parse_eight_digits(p, value, counter, digits);
       }
