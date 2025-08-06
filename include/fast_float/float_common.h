@@ -287,6 +287,12 @@ template <> struct numeric_limits<double> {
   static constexpr double quiet_NaN() noexcept { return __builtin_nan(""); }
 };
 
+template <typename To, typename From>
+constexpr To bit_cast(const From &from) noexcept {
+  // GCC, Clang and MSVC all implement std::bit_cast() with __builtin_bit_cast().
+  return __builtin_bit_cast(To, from);
+}
+
 template <typename T> static constexpr T min(const T &a, const T &b) {
   return a < b ? a : b;
 }
@@ -778,7 +784,7 @@ to_float(bool negative, adjusted_mantissa am, T &value) {
           << binary_format<T>::mantissa_explicit_bits();
   word |= fastfloat_uint(negative) << binary_format<T>::sign_index();
 #if FASTFLOAT_HAS_BIT_CAST
-  value = std::bit_cast<T>(word);
+  value = bit_cast<T>(word);
 #else
   ::memcpy(&value, &word, sizeof(T));
 #endif
