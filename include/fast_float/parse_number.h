@@ -36,8 +36,8 @@ from_chars_result_t<UC>
   if (last - first >= 3) {
     if (fastfloat_strncasecmp(first, str_const_nan<UC>(), 3)) {
       answer.ptr = (first += 3);
-      value = minusSign ? -std::numeric_limits<T>::quiet_NaN()
-                        : std::numeric_limits<T>::quiet_NaN();
+      value = minusSign ? -numeric_limits<T>::quiet_NaN()
+                        : numeric_limits<T>::quiet_NaN();
       // Check for possible nan(n-char-seq-opt), C++17 20.19.3.7,
       // C11 7.20.1.3.3. At least MSVC produces nan(ind) and nan(snan).
       if (first != last && *first == UC('(')) {
@@ -60,8 +60,8 @@ from_chars_result_t<UC>
       } else {
         answer.ptr = first + 3;
       }
-      value = minusSign ? -std::numeric_limits<T>::infinity()
-                        : std::numeric_limits<T>::infinity();
+      value = minusSign ? -numeric_limits<T>::infinity()
+                        : numeric_limits<T>::infinity();
       return answer;
     }
   }
@@ -92,10 +92,10 @@ fastfloat_really_inline bool rounds_to_nearest() noexcept {
   // The volatile keyword prevents the compiler from computing the function
   // at compile-time.
   // There might be other ways to prevent compile-time optimizations (e.g.,
-  // asm). The value does not need to be std::numeric_limits<float>::min(), any
+  // asm). The value does not need to be numeric_limits<float>::min(), any
   // small value so that 1 + x should round to 1 would do (after accounting for
   // excess precision, as in 387 instructions).
-  static volatile float fmin = std::numeric_limits<float>::min();
+  static volatile float fmin = numeric_limits<float>::min();
   float fmini = fmin; // we copy it so that it gets loaded at most once.
 //
 // Explanation:

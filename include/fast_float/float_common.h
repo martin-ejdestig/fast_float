@@ -12,6 +12,10 @@
 #include <stdfloat>
 #endif
 #endif
+
+#include <float.h>
+#include <stdint.h>
+
 #include "constexpr_feature_detect.h"
 
 namespace fast_float {
@@ -201,6 +205,48 @@ namespace fast_float {
 template <bool, typename T = void> struct enable_if {};
 template <typename T> struct enable_if<true, T> {
   using type = T;
+};
+
+// Implement what is used from std::numeric_limits with float.h, stdint.h and
+// __builtin_*() available in GCC, Clang and MSVC. libstdc++, libc++ and MS STL
+// all use these __builtin_*() to implement parts of std::numeric_limits so use
+// them unconditionally.
+template <typename T> struct numeric_limits {};
+template <> struct numeric_limits<int8_t> {
+  static constexpr int8_t max() noexcept { return INT8_MAX; }
+};
+template <> struct numeric_limits<uint8_t> {
+  static constexpr uint8_t max() noexcept { return UINT8_MAX; }
+};
+template <> struct numeric_limits<int16_t> {
+  static constexpr int16_t max() noexcept { return INT16_MAX; }
+};
+template <> struct numeric_limits<uint16_t> {
+  static constexpr uint16_t max() noexcept { return UINT16_MAX; }
+};
+template <> struct numeric_limits<int32_t> {
+  static constexpr int32_t max() noexcept { return INT32_MAX; }
+};
+template <> struct numeric_limits<uint32_t> {
+  static constexpr uint32_t max() noexcept { return UINT32_MAX; }
+};
+template <> struct numeric_limits<int64_t> {
+  static constexpr int64_t max() noexcept { return INT64_MAX; }
+};
+template <> struct numeric_limits<uint64_t> {
+  static constexpr uint64_t max() noexcept { return UINT64_MAX; }
+};
+template <> struct numeric_limits<float> {
+  static constexpr float min() noexcept { return FLT_MIN; }
+  static constexpr float max() noexcept { return FLT_MAX; }
+  static constexpr float infinity() noexcept { return __builtin_huge_valf(); }
+  static constexpr float quiet_NaN() noexcept { return __builtin_nanf(""); }
+};
+template <> struct numeric_limits<double> {
+  static constexpr double min() noexcept { return DBL_MIN; }
+  static constexpr double max() noexcept { return DBL_MAX; }
+  static constexpr double infinity() noexcept { return __builtin_huge_val(); }
+  static constexpr double quiet_NaN() noexcept { return __builtin_nan(""); }
 };
 
 template <typename T> static constexpr T min(const T &a, const T &b) {
