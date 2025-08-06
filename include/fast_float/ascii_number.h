@@ -482,7 +482,7 @@ parse_int_string(UC const *p, UC const *pend, T &value,
   UC const *const first = p;
 
   bool const negative = (*p == UC('-'));
-  if (!std::is_signed<T>::value && negative) {
+  if (!numeric_limits<T>::is_signed && negative) {
     answer.ec = errc::invalid_argument;
     answer.ptr = first;
     return answer;
